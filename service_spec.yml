@@ -1,0 +1,58 @@
+service_name: danglinghttp
+
+slack:
+  team: Behance
+  username: sthukral
+  channel: sthukral_moonbeam
+
+team_access_control:
+  -
+    name: deploy-team
+    roles: [ethos_deployments_admin]
+adobe_cost_centers: 
+ opex:
+  adus: 112233
+ cogs:
+  adus: 102612
+  adir: 5488965    
+#adobe_cost_center: [234567]
+adobe_owner: Account Management
+alerts:
+  emails: [sthukral@adobe.com]
+data_classification: [Internal]
+
+images:
+  # Required.
+  # List of docker images.
+  -
+    # Required.
+    # User friendly image ID for docker image.
+    # Allowed pattern: /^[0-9a-z-]+$/
+    id: nodejstest
+
+containers:
+  -
+    # Mandatory.
+    # User friendly ID for this container. Allowed pattern: /^[0-9a-zA-Z-]+$/
+    id: mycontainer
+    # Mandatory.
+    # ID of one of the images specified in "images" section.
+    image_id: nodejstest
+    class: WebServer
+    arch_path: sc.worker
+environments:
+- name: DEV4
+  cluster_type: DEV
+  containers:
+  - id: mycontainer
+    topology: inet
+    health_check:
+      path: "/"
+    inet_port: 8080
+    instances: 10
+    cpus: 0.1
+    mem: 128
+    load_balancing:
+      max_header_size: 40
+  regions:
+  - name: va7 
